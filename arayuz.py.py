@@ -4,7 +4,7 @@ import urllib.parse
 # --- AYARLAR ---
 NUMARA = "905461065331"
 
-# --- VERİ SETİ (100 ADET) ---
+# --- VERİ SETİ (100 ADET - EKSİKSİZ) ---
 def get_perfumes():
     m_raw = [
         ("Sauvage Elixir", 95, "68415", "Lavanta"), ("Aventus", 130, "9828", "Ananas"), ("Eros Parfum", 80, "63731", "Nane"),
@@ -82,13 +82,19 @@ elif st.session_state.sayfa == "SEPET":
         siparis_notu = "Sipariş Listem:\n"
         for idx, item in enumerate(st.session_state.sepet):
             col_a, col_b, col_c = st.columns([3,1,1])
-            col_a.write(f"**{item['ad']}** ({item['ml']}ml)")
+            
+            # --- HATA DÜZELTİCİ KOD ---
+            # Eğer eski sepetten kalan ml bilgisi yoksa, otomatik 5 say
+            ml_bilgisi = item.get('ml', 5) 
+            # --------------------------
+
+            col_a.write(f"**{item['ad']}** ({ml_bilgisi}ml)")
             col_b.write(f"{item['f']} TL")
             if col_c.button("❌", key=f"del_{idx}"):
                 st.session_state.sepet.pop(idx)
                 st.rerun()
             toplam += item['f']
-            siparis_notu += f"- {item['ad']} {item['ml']}ml: {item['f']} TL\n"
+            siparis_notu += f"- {item['ad']} {ml_bilgisi}ml: {item['f']} TL\n"
         
         st.divider()
         st.subheader(f"Toplam Tutar: {toplam} TL")
@@ -113,7 +119,6 @@ else:
 
     for p in filtered:
         with st.container():
-            # Hatalı olan tırnak yapısını sildik, yerine Streamlit'in kendi görsel araçlarını koyduk
             st.image(p['i'], width=150)
             st.subheader(p['ad'])
             st.caption(f"Nota: {p['n']}")
