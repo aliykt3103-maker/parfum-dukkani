@@ -4,111 +4,73 @@ import urllib.parse
 # --- AYARLAR ---
 NUMARA = "905461065331"
 
-# --- VERİ SETİ ---
+# --- DEV ENVANTER (100 ADET) ---
 def get_perfumes():
-    # ERKEK PARFÜMLERİ (Örnek liste - Önceki listedeki 100 ürünün yapısını korur)
-    m = [
-        ("Sauvage Elixir", 95, "68415"), ("Aventus", 130, "9828"), ("Eros Parfum", 80, "63731"),
-        ("Hacivat", 115, "44174"), ("Ganimede", 120, "54734"), ("Bleu Chanel", 90, "25967")
+    # ERKEK (50 ADET)
+    m_raw = [
+        ("Sauvage Elixir", 95, "68415", "Lavanta"), ("Aventus", 130, "9828", "Ananas"), ("Eros Parfum", 80, "63731", "Nane"),
+        ("Hacivat", 115, "44174", "Meşe"), ("Ganimede", 120, "54734", "Safran"), ("Bleu Chanel", 90, "25967", "Tütsü"),
+        ("Dior Homme Int", 95, "13016", "İris"), ("Layton", 110, "39332", "Elma"), ("Naxos", 120, "52972", "Bal"),
+        ("SWY Intense", 85, "44587", "Kestane"), ("Spicebomb Ext", 85, "30447", "Tütün"), ("Terre Hermes", 80, "823", "Sedir"),
+        ("Oud Wood", 130, "1826", "Ud"), ("YSL Y EDP", 90, "47506", "Adaçayı"), ("Invictus Vict", 80, "65061", "Vanilya"),
+        ("Explorer", 75, "52002", "Bergamot"), ("Born In Roma", 85, "56615", "Tuz"), ("Gio Profondo", 85, "59532", "Deniz"),
+        ("Bleecker St", 115, "1444", "Yosun"), ("Side Effect", 130, "42260", "Rom"), ("Most Wanted", 85, "66826", "Karamel"),
+        ("Ombre Nomade", 150, "49751", "Oud"), ("Ani Nishane", 115, "54785", "Vanilya"), ("Luna Rossa", 80, "43402", "Kömür"),
+        ("Le Male Elixir", 90, "81643", "Bal"), ("Tobacco Vanille", 130, "1825", "Tütün"), ("Megamare", 125, "54057", "Deniz"),
+        ("Reflection", 130, "920", "Neroli"), ("Prada Amber", 85, "834", "Deri"), ("Allure Sport", 90, "614", "Deniz"),
+        ("Wood Sage", 100, "27044", "Adaçayı"), ("Fahrenheit", 85, "218", "Deri"), ("Santal 33", 140, "12201", "Sandal"),
+        ("Black Phantom", 145, "43632", "Kahve"), ("Sauvage Parfum", 95, "56405", "Sandal"), ("Dylan Blue", 80, "39348", "İncir"),
+        ("Polo Green", 75, "829", "Çam"), ("Jazz Club", 95, "20541", "Rom"), ("By Fireplace", 95, "31623", "Kestane"),
+        ("Silver Mountain", 125, "472", "Çay"), ("Gentleman Priv", 90, "71883", "Viski"), ("Viking", 130, "41620", "Nane"),
+        ("L'Aventure", 75, "38318", "Limon"), ("The One Men", 80, "2056", "Tütün"), ("Code Parfum", 90, "75333", "İris"),
+        ("Night Vision", 85, "58410", "Elma"), ("Pegasus", 110, "13387", "Badem"), ("Toy Boy", 75, "55858", "Gül"),
+        ("Light Blue Int", 80, "44034", "Greyfurt"), ("Pure Malt", 100, "6103", "Malt")
     ]
-    # KADIN PARFÜMLERİ
-    w = [
-        ("Libre Intense", 95, "62318"), ("Good Girl", 85, "39683"), ("Delina Excl", 140, "46661"),
-        ("Baccarat 540", 150, "33351"), ("Black Opium", 85, "25317")
+    # KADIN (50 ADET)
+    w_raw = [
+        ("Libre Intense", 95, "62318", "Lavanta"), ("Good Girl", 85, "39683", "Kahve"), ("Delina Excl", 140, "46661", "Gül"),
+        ("Baccarat 540", 150, "33531", "Safran"), ("Black Opium", 85, "25317", "Kahve"), ("L'Interdit", 95, "68656", "Üzüm"),
+        ("Chance Tendre", 100, "8069", "Ayva"), ("Crystal Noir", 85, "631", "Amber"), ("Vie Est Belle", 80, "14973", "Şeker"),
+        ("Lost Cherry", 135, "51411", "Vişne"), ("Alien", 85, "707", "Yasemin"), ("J'adore", 95, "210", "Armut"),
+        ("Scandal", 90, "45065", "Bal"), ("Chloe EDP", 85, "1550", "Gül"), ("Mon Guerlain", 90, "43263", "Lavanta"),
+        ("Si Passione", 90, "47700", "Gül"), ("Erba Pura", 125, "55444", "Meyve"), ("Bright Crystal", 80, "632", "Yuzu"),
+        ("Hypnotic Poison", 85, "219", "Badem"), ("Miss Dior", 95, "68652", "Gül"), ("Lady Million", 80, "9045", "Bal"),
+        ("Nomade", 85, "48404", "Erik"), ("Angel", 90, "704", "Çikolata"), ("Paradoxe", 95, "75338", "Neroli"),
+        ("Burberry Her", 85, "51697", "Çilek"), ("Light Blue W", 80, "485", "Limon"), ("Olympéa", 85, "31661", "Tuz"),
+        ("Flowerbomb", 95, "1460", "Orkide"), ("Baccarat Ext", 175, "46066", "Safran"), ("Atomic Rose", 135, "56456", "Gül"),
+        ("Kirke", 110, "32172", "Meyve"), ("Satin Mood", 150, "30947", "Gül"), ("Delina Rosee", 135, "64257", "Şakayık"),
+        ("Devotion", 90, "84457", "Limon"), ("My Way", 85, "62036", "Çiçek"), ("Idole", 85, "55342", "Gül"),
+        ("Mademoiselle", 105, "611", "Gül"), ("Very Good Girl", 90, "65584", "Gül"), ("Angels Share", 140, "62615", "Tarçın"),
+        ("Eau d'Issey", 80, "720", "Nilüfer"), ("Narciso Her", 85, "605", "Misk"), ("Gucci Bamboo", 80, "31481", "Zambak"),
+        ("Twilly", 85, "46145", "Zencefil"), ("Bitter Peach", 140, "63060", "Şeftali"), ("Soleil Blanc", 130, "37609", "Hindistan"),
+        ("Nuit Tresor", 90, "29157", "Karamel"), ("Gris Dior", 135, "17387", "Gül"), ("Guilty W", 90, "52924", "Leylak"),
+        ("Pure Musc", 90, "53594", "Misk"), ("Hibiscus", 155, "68853", "Vanilya")
     ]
     res = []
-    for x in m: res.append({"ad":x[0],"f":x[1],"i":f"https://fimgs.net/mdimg/perfume/m.{x[2]}.jpg","t":"Erkek"})
-    for x in w: res.append({"ad":x[0],"f":x[1],"i":f"https://fimgs.net/mdimg/perfume/m.{x[2]}.jpg","t":"Kadın"})
+    for x in m_raw: res.append({"ad":x[0],"f":x[1],"i":f"https://fimgs.net/mdimg/perfume/m.{x[2]}.jpg","n":x[3],"t":"Erkek"})
+    for x in w_raw: res.append({"ad":x[0],"f":x[1],"i":f"https://fimgs.net/mdimg/perfume/m.{x[2]}.jpg","n":x[3],"t":"Kadın"})
     return res
 
-# --- SESSION STATE ---
+# --- APP ---
 if 'sepet' not in st.session_state: st.session_state.sepet = []
-if 'sayfa' not in st.session_state: st.session_state.sayfa = "GİRİŞ"
+if 'p' not in st.session_state: st.session_state.p = "G"
 
 st.set_page_config(page_title="ALİY DEKANT", layout="centered")
 
-# --- NAVBAR ---
+# --- CSS ---
+st.markdown("<style>.card{background:white; border-radius:15px; padding:15px; text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:15px;} img{border-radius:10px; max-height:180px;} .stButton>button{border-radius:10px; font-weight:bold; background:#007bff !important; color:white !important;}</style>", unsafe_allow_html=True)
+
+# --- NAV ---
 c1, c2 = st.columns([4,1])
 with c1: 
-    if st.button("🛡 ALİY DEKANT"): st.session_state.sayfa = "GİRİŞ"; st.rerun()
+    if st.button("🛡 ALİY DEKANT - ANA SAYFA"): st.session_state.p = "G"; st.rerun()
 with c2: 
-    if st.button(f"🛒({len(st.session_state.sepet)})"): st.session_state.sayfa = "SEPET"; st.rerun()
+    if st.button(f"🛒({len(st.session_state.sepet)})"): st.session_state.p = "S"; st.rerun()
 
 data = get_perfumes()
 
 # --- SAYFA: GİRİŞ ---
-if st.session_state.sayfa == "GİRİŞ":
+if st.session_state.p == "G":
     st.title("Hoş Geldiniz")
     b1, b2 = st.columns(2)
-    if b1.button("👔 ERKEK"): st.session_state.sayfa="Erkek"; st.rerun()
-    if b2.button("👗 KADIN"): st.session_state.sayfa="Kadın"; st.rerun()
-
-# --- SAYFA: SEPET (SİLME VE WHATSAPP) ---
-elif st.session_state.sayfa == "SEPET":
-    st.header("🛒 Sepetim")
-    
-    if not st.session_state.sepet:
-        st.warning("Sepetiniz şu an boş.")
-        if st.button("Alışverişe Başla"): st.session_state.sayfa = "GİRİŞ"; st.rerun()
-    else:
-        toplam_tutar = 0
-        sepet_metni = "Merhaba Aliy Dekant! Siparişim şudur:\n\n"
-        
-        # Ürünleri Listele ve Silme Butonları
-        yeni_sepet = []
-        for index, item in enumerate(st.session_state.sepet):
-            col_ad, col_fiyat, col_sil = st.columns([3, 1, 1])
-            with col_ad: st.write(f"**{item['ad']}** ({item['ml']}ml)")
-            with col_fiyat: st.write(f"{item['f']} TL")
-            with col_sil:
-                if st.button("❌", key=f"sil_{index}"):
-                    st.session_state.sepet.pop(index)
-                    st.rerun()
-            
-            toplam_tutar += item['f']
-            sepet_metni += f"- {item['ad']} ({item['ml']}ml): {item['f']} TL\n"
-        
-        st.divider()
-        st.subheader(f"Toplam: {toplam_tutar} TL")
-        sepet_metni += f"\n*Toplam Tutar: {toplam_tutar} TL*"
-
-        # WhatsApp Sipariş Butonu
-        encoded_text = urllib.parse.quote(sepet_metni)
-        whatsapp_url = f"https://wa.me/{NUMARA}?text={encoded_text}"
-        
-        st.markdown(f'''
-            <a href="{whatsapp_url}" target="_blank" style="text-decoration: none;">
-                <div style="background-color: #25D366; color: white; padding: 15px; text-align: center; border-radius: 10px; font-weight: bold; font-size: 18px;">
-                    🟢 WHATSAPP İLE SİPARİŞ VER
-                </div>
-            </a>
-        ''', unsafe_allow_html=True)
-        
-        if st.button("Sepeti Temizle"):
-            st.session_state.sepet = []
-            st.rerun()
-
-# --- SAYFA: VİTRİN ---
-else:
-    st.subheader(f"✨ {st.session_state.sayfa} Vitrini")
-    ara = st.text_input("🔍 Ara...")
-    
-    listele = [i for i in data if i['t'] == st.session_state.sayfa]
-    if ara: listele = [i for i in listele if ara.lower() in i['ad'].lower()]
-
-    for i in listele:
-        with st.container():
-            st.markdown(f'''
-                <div style="background:white; border-radius:15px; padding:15px; text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:20px;">
-                    <img src="{i["i"]}" style="max-height:180px;"><br>
-                    <b>{i["ad"]}</b>
-                </div>
-            ''', unsafe_allow_html=True)
-            
-            ml = st.select_slider(f"Boyut ({i['ad']})", [3, 5, 10], 5, key="ml"+i['ad'])
-            f_birim = int(ml * i['f'])
-            
-            if st.button(f"SEPETE EKLE - {f_birim} TL", key="bt"+i['ad'], use_container_width=True):
-                st.session_state.sepet.append({"ad": i['ad'], "f": f_birim, "ml": ml})
-                st.toast(f"{i['ad']} eklendi!")
-                st.rerun()
+    if b1.button("👔 ERKEK
