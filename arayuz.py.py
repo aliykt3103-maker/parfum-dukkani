@@ -3,89 +3,94 @@ import streamlit as st
 # --- AYARLAR ---
 NUMARA = "905461065331"
 
-# --- TÜM LİSTE (Hatasız ve Eksiksiz) ---
+# --- ENVANTER ---
 def get_envanter():
-    erkek = [
-        {"ad": "Sauvage Elixir", "fiyat": 95, "cat": "🟦 BLUE", "puan": 4.9, "yorum": "Kalıcılığı muazzam."},
-        {"ad": "Aventus", "fiyat": 130, "cat": "🌬 FRESH", "puan": 4.8, "yorum": "Tam bir imza kokusu."},
-        {"ad": "Eros Parfum", "fiyat": 80, "cat": "🟥 RED", "puan": 4.7, "yorum": "Kadınlar bu kokuya bayılıyor."},
-        {"ad": "Hacivat", "fiyat": 115, "cat": "🟩 GREEN", "puan": 4.9, "yorum": "Yerli gururumuz, çok kaliteli."},
-        {"ad": "Ganimede", "fiyat": 120, "cat": "✨ MYSTERY", "puan": 5.0, "yorum": "Farklı ve çok lüks."},
-        # Buraya diğer 45 erkek parfümü isimleri eklenecek
+    # Erkek ve Kadın Parfümleri - En Sağlam Linkler
+    data = [
+        {"ad": "Sauvage Elixir", "fiyat": 95, "cat": "🟦 BLUE", "img": "https://fimgs.net/mdimg/perfume/m.68415.jpg", "tip": "Erkek", "puan": 4.9, "yorum": "Kalıcılığı muazzam."},
+        {"ad": "Creed Aventus", "fiyat": 130, "cat": "🌬 FRESH", "img": "https://fimgs.net/mdimg/perfume/m.9828.jpg", "tip": "Erkek", "puan": 4.8, "yorum": "Gerçek bir klasik."},
+        {"ad": "Eros Parfum", "fiyat": 80, "cat": "🟥 RED", "img": "https://fimgs.net/mdimg/perfume/m.63731.jpg", "tip": "Erkek", "puan": 4.7, "yorum": "Enerjik ve dikkat çekici."},
+        {"ad": "Hacivat", "fiyat": 115, "cat": "🟩 GREEN", "img": "https://fimgs.net/mdimg/perfume/m.44174.jpg", "tip": "Erkek", "puan": 4.9, "yorum": "Ananas ve meşe yosunu uyumu efsane."},
+        {"ad": "Ganimede", "fiyat": 120, "cat": "✨ MYSTERY", "img": "https://fimgs.net/mdimg/perfume/m.54734.jpg", "tip": "Erkek", "puan": 5.0, "yorum": "Benzersiz, metalik ve lüks."},
+        {"ad": "Libre Intense", "fiyat": 95, "cat": "🌸 FLORAL", "img": "https://fimgs.net/mdimg/perfume/m.62318.jpg", "tip": "Kadın", "puan": 5.0, "yorum": "Sıktığımda herkes soruyor."},
+        {"ad": "Good Girl", "fiyat": 85, "cat": "🍯 GOURMAND", "img": "https://fimgs.net/mdimg/perfume/m.39683.jpg", "tip": "Kadın", "puan": 4.8, "yorum": "Seksi ve çekici bir koku."},
+        {"ad": "Delina Exclusif", "fiyat": 140, "cat": "🌸 FLORAL", "img": "https://fimgs.net/mdimg/perfume/m.46661.jpg", "tip": "Kadın", "puan": 4.9, "yorum": "Gül ve liçinin mükemmel birleşimi."},
+        {"ad": "Baccarat Rouge", "fiyat": 150, "cat": "✨ MYSTERY", "img": "https://fimgs.net/mdimg/perfume/m.33531.jpg", "tip": "Kadın", "puan": 4.7, "yorum": "Lüksün tanımı bu şişede."},
+        {"ad": "Black Opium", "fiyat": 85, "cat": "🍯 GOURMAND", "img": "https://fimgs.net/mdimg/perfume/m.25317.jpg", "tip": "Kadın", "puan": 4.6, "yorum": "Kahve notası çok enerjik."}
     ]
-    kadin = [
-        {"ad": "Libre Intense", "fiyat": 95, "cat": "🌸 FLORAL", "puan": 5.0, "yorum": "En sevdiğim parfümüm oldu."},
-        {"ad": "Good Girl", "fiyat": 85, "cat": "🍯 GOURMAND", "puan": 4.8, "yorum": "Şişesi ayrı, kokusu ayrı güzel."},
-        {"ad": "Delina Exclusif", "fiyat": 140, "cat": "🌸 FLORAL", "puan": 4.9, "yorum": "Tam bir prenses kokusu."},
-        {"ad": "Baccarat Rouge", "fiyat": 150, "cat": "✨ MYSTERY", "puan": 4.7, "yorum": "Sıktığımda herkes soruyor."},
-        {"ad": "Black Opium", "fiyat": 85, "cat": "🍯 GOURMAND", "puan": 4.6, "yorum": "Kış ayları için vazgeçilmez."},
-        # Buraya diğer 45 kadın parfümü isimleri eklenecek
-    ]
-    return erkek, kadin
-
-erkek_list, kadin_list = get_envanter()
+    return data
 
 # --- SESSION STATE ---
 if 'sepet' not in st.session_state: st.session_state.sepet = []
 if 'ekran' not in st.session_state: st.session_state.ekran = "GİRİŞ"
 
-# --- TASARIM ---
+st.set_page_config(page_title="ALİY DEKANT", layout="centered")
+
+# --- TASARIM (CSS) ---
 st.markdown("""
 <style>
+    .stApp { background-color: #f8f9fa; }
     .parfum-kart { 
-        background: white; border-radius: 20px; padding: 15px; text-align: center; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid #eee; margin-bottom: 20px;
+        background: white; border-radius: 25px; padding: 20px; text-align: center; 
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; margin-bottom: 25px;
     }
-    .puan { color: #f1c40f; font-weight: bold; font-size: 14px; }
-    .yorum { font-style: italic; font-size: 12px; color: #777; margin: 10px 0; }
-    .stButton>button { border-radius: 12px; background-color: #007bff !important; color: white !important; }
+    img { border-radius: 20px; max-height: 250px; width: 100%; object-fit: contain; margin-bottom: 15px; }
+    .notalar { color: white; font-size: 11px; background: #ff4d4d; padding: 5px 12px; border-radius: 10px; display: inline-block; margin-bottom: 15px; }
+    .puan { color: #f1c40f; font-weight: bold; margin-bottom: 5px; }
+    .yorum { font-style: italic; color: #777; font-size: 12px; margin-bottom: 15px; }
+    .stButton>button { border-radius: 15px; height: 50px; font-weight: bold; background-color: #007bff !important; color: white !important; }
 </style>
 """, unsafe_allow_html=True)
 
 # --- ÜST MENÜ ---
-c_logo, c_sepet = st.columns([4, 1])
-with c_logo:
-    if st.button("✨ ALİY DEKANT"): st.session_state.ekran = "GİRİŞ"; st.rerun()
-with c_sepet:
+col_l, col_s = st.columns([4, 1])
+with col_l:
+    if st.button("🛡 ALİY DEKANT"): st.session_state.ekran = "GİRİŞ"; st.rerun()
+with col_s:
     if st.button(f"🛒 ({len(st.session_state.sepet)})"): st.session_state.ekran = "SEPET"; st.rerun()
 
 # --- SAYFA MANTIĞI ---
+envanter = get_envanter()
+
 if st.session_state.ekran == "GİRİŞ":
-    st.title("Koleksiyon Seçin")
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("👔 ERKEK (50 ADET)"): st.session_state.ekran = "Erkek"; st.rerun()
-    with col2:
-        if st.button("👗 KADIN (50 ADET)"): st.session_state.ekran = "Kadın"; st.rerun()
+    st.markdown("<h1 style='text-align:center;'>Hoş Geldiniz</h1>", unsafe_allow_html=True)
+    c1, c2 = st.columns(2)
+    with c1:
+        if st.button("👔 ERKEK KOLEKSİYONU"): st.session_state.ekran = "Erkek"; st.rerun()
+    with c2:
+        if st.button("👗 KADIN KOLEKSİYONU"): st.session_state.ekran = "Kadın"; st.rerun()
 
 elif st.session_state.ekran == "SEPET":
-    st.subheader("🛒 Sepetim")
-    if not st.session_state.sepet: st.write("Sepetiniz boş.")
+    st.subheader("🛒 Sepetiniz")
+    if not st.session_state.sepet:
+        st.info("Sepetiniz boş.")
     else:
         toplam = 0
-        for urun in st.session_state.sepet:
-            st.write(f"✅ {urun['ad']} ({urun['ml']}ml) - {urun['fiyat']} TL")
+        for i, urun in enumerate(st.session_state.sepet):
+            st.write(f"🔹 {urun['ad']} ({urun['ml']}ml) - {urun['fiyat']} TL")
             toplam += urun['fiyat']
         st.divider()
         st.subheader(f"Toplam: {toplam} TL")
-        if st.button("SİPARİŞİ TAMAMLA"): st.balloons(); st.success("Siparişiniz alındı! (Test Modu)")
+        if st.button("SİPARİŞİ TAMAMLA", use_container_width=True):
+            st.success("Sipariş talebiniz alındı!")
 
-else: # VİTRİN
-    liste = erkek_list if st.session_state.ekran == "Erkek" else kadin_list
-    st.subheader(f"{st.session_state.ekran} Parfümleri")
+else:
+    st.subheader(f"✨ {st.session_state.ekran} Vitrini")
+    goster = [p for p in envanter if p['tip'] == st.session_state.ekran]
     
-    for p in liste:
+    for p in goster:
         with st.container():
             st.markdown(f'''
             <div class="parfum-kart">
-                <h3>{p["ad"]}</h3>
+                <img src="{p["img"]}">
+                <h3 style="margin:0;">{p["ad"]}</h3>
                 <div class="puan">⭐ {p["puan"]}</div>
                 <div class="yorum">"{p["yorum"]}"</div>
             </div>
             ''', unsafe_allow_html=True)
-            ml = st.select_slider(f"Boyut ({p['ad']})", options=[3, 5, 10], key=p['ad'])
+            ml = st.select_slider(f"Boyut seç ({p['ad']})", options=[3, 5, 10], value=5, key=p['ad'])
             fiyat = int(ml * p['fiyat'])
-            if st.button(f"SEPETE EKLE - {fiyat} TL", key="btn"+p['ad']):
+            if st.button(f"SEPETE EKLE - {fiyat} TL", key="btn_"+p['ad'], use_container_width=True):
                 st.session_state.sepet.append({"ad": p['ad'], "ml": ml, "fiyat": fiyat})
                 st.toast(f"{p['ad']} eklendi!")
                 st.rerun()
