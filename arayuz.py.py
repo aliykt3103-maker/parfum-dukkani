@@ -56,10 +56,10 @@ if 'sayfa' not in st.session_state: st.session_state.sayfa = "ANA"
 st.set_page_config(page_title="ALİY DEKANT", layout="centered")
 
 # --- NAVBAR ---
-c1, c2 = st.columns([4,1])
-with c1: 
+c_nav1, c_nav2 = st.columns([4,1])
+with c_nav1: 
     if st.button("🛡 ALİY DEKANT"): st.session_state.sayfa = "ANA"; st.rerun()
-with c2: 
+with c_nav2: 
     if st.button(f"🛒({len(st.session_state.sepet)})"): st.session_state.sayfa = "SEPET"; st.rerun()
 
 all_perfumes = get_perfumes()
@@ -100,7 +100,6 @@ elif st.session_state.sayfa == "SEPET":
 else:
     st.header(f"{st.session_state.sayfa} Parfümleri")
     
-    # Arama ve Sıralama
     col_ara, col_sirala = st.columns([2,1])
     query = col_ara.text_input("🔍 Parfüm Ara...")
     sirala = col_sirala.selectbox("💲 Fiyat Sırala", ["Varsayılan", "Artan", "Azalan"])
@@ -114,5 +113,16 @@ else:
 
     for p in filtered:
         with st.container():
-            st.markdown(f'''
-            <div style="background:white; padding:15px; border-radius:15px; border:1px solid #ddd; text-align:center; margin-bottom:1
+            # Hatalı olan tırnak yapısını sildik, yerine Streamlit'in kendi görsel araçlarını koyduk
+            st.image(p['i'], width=150)
+            st.subheader(p['ad'])
+            st.caption(f"Nota: {p['n']}")
+            
+            ml_size = st.select_slider(f"Boyut ({p['ad']})", [3, 5, 10], 5, key="ml_"+p['ad'])
+            final_price = int(ml_size * p['f'])
+            
+            if st.button(f"EKLE - {final_price} TL", key="btn_"+p['ad'], use_container_width=True):
+                st.session_state.sepet.append({"ad": p['ad'], "f": final_price, "ml": ml_size})
+                st.toast(f"{p['ad']} eklendi!")
+                st.rerun()
+            st.divider()
