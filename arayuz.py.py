@@ -3,76 +3,73 @@ import streamlit as st
 # --- AYARLAR ---
 NUMARA = "905461065331"
 
-# --- 100 ADETLİK DEV ENVANTER (50 ERKEK + 50 KADIN) ---
-envanter = [
-    # --- ERKEK KOLEKSİYONU (Örnekler) ---
-    {"ad": "Sauvage Elixir", "fiyat": 90, "cat": "🟦 BLUE", "img": "https://www.dior.com/dw/image/v2/BBDL_PRD/on/demandware.static/-/Sites-master_dior/default/dw78676644/assets/y0996460/y0996460_e01.jpg", "notalar": "Lavanta, Meyan Kökü, Tarçın", "tip": "Erkek"},
-    {"ad": "Creed Aventus", "fiyat": 120, "cat": "🌬 FRESH", "img": "https://fimgs.net/mdimg/perfume/m.9828.jpg", "notalar": "Ananas, Bergamot, Misk", "tip": "Erkek"},
-    {"ad": "Eros Parfum", "fiyat": 80, "cat": "🟥 RED", "img": "https://fimgs.net/mdimg/perfume/m.63731.jpg", "notalar": "Nane, Yeşil Elma, Tonka", "tip": "Erkek"},
-    
-    # --- KADIN KOLEKSİYONU (50 ADET SEÇKİSİ) ---
-    {"ad": "Libre Intense", "fiyat": 90, "cat": "🌸 FLORAL", "img": "https://www.yslbeauty.com.tr/dw/image/v2/BBDL_PRD/on/demandware.static/-/Sites-master_ysl/default/dw123456/Libre_Intense.jpg", "notalar": "Lavanta, Orkide, Vanilya", "tip": "Kadın"},
-    {"ad": "Good Girl", "fiyat": 85, "cat": "🍯 GOURMAND", "img": "https://fimgs.net/mdimg/perfume/m.39683.jpg", "notalar": "Badem, Kahve, Kakao", "tip": "Kadın"},
-    {"ad": "Delina Exclusif", "fiyat": 130, "cat": "🌸 FLORAL", "img": "https://fimgs.net/mdimg/perfume/m.46661.jpg", "notalar": "Gül, Liçi, Tütsü", "tip": "Kadın"},
-    {"ad": "Black Opium", "fiyat": 85, "cat": "✨ MYSTERIOUS", "img": "https://fimgs.net/mdimg/perfume/m.25317.jpg", "notalar": "Kahve, Vanilya, Beyaz Çiçekler", "tip": "Kadın"},
-    {"ad": "Baccarat Rouge 540", "fiyat": 150, "cat": "✨ MYSTERIOUS", "img": "https://fimgs.net/mdimg/perfume/m.33531.jpg", "notalar": "Safran, Yasemin, Amber", "tip": "Kadın"},
-    {"ad": "La Vie Est Belle", "fiyat": 80, "cat": "🍯 GOURMAND", "img": "https://fimgs.net/mdimg/perfume/m.14973.jpg", "notalar": "Pralin, Vanilya, İris", "tip": "Kadın"},
-    {"ad": "Crystal Noir", "fiyat": 80, "cat": "✨ MYSTERIOUS", "img": "https://fimgs.net/mdimg/perfume/m.631.jpg", "notalar": "Zencefil, Hindistan Cevizi, Kehribar", "tip": "Kadın"},
-    {"ad": "J'adore", "fiyat": 90, "cat": "🌸 FLORAL", "img": "https://fimgs.net/mdimg/perfume/m.210.jpg", "notalar": "Armut, Kavun, Yasemin", "tip": "Kadın"},
-    {"ad": "Alien", "fiyat": 85, "cat": "✨ MYSTERIOUS", "img": "https://fimgs.net/mdimg/perfume/m.707.jpg", "notalar": "Yasemin, Amber, Kaşmir", "tip": "Kadın"},
-    {"ad": "L'Interdit Rouge", "fiyat": 90, "cat": "🟥 RED", "img": "https://fimgs.net/mdimg/perfume/m.68656.jpg", "notalar": "Kan Portakalı, Zencefil, Sümbülteber", "tip": "Kadın"},
-    {"ad": "Chloe EDP", "fiyat": 85, "cat": "🌬 FRESH", "img": "https://fimgs.net/mdimg/perfume/m.1550.jpg", "notalar": "Şakayık, Gül, Manolya", "tip": "Kadın"},
-    {"ad": "Chance Tendre", "fiyat": 95, "cat": "🌬 FRESH", "img": "https://fimgs.net/mdimg/perfume/m.8069.jpg", "notalar": "Ayva, Greyfurt, Sümbül", "tip": "Kadın"},
-    {"ad": "Hypnotic Poison", "fiyat": 85, "cat": "🍯 GOURMAND", "img": "https://fimgs.net/mdimg/perfume/m.219.jpg", "notalar": "Acı Badem, Vanilya, Misk", "tip": "Kadın"}
-    # (Buraya diğer 40 parfüm eklenecek, liste uzamaması için kısa tuttum ama mantık aynı)
+# --- ENVANTER (HATA RİSKİ SIFIRLANMIŞ LİSTE) ---
+erkek_parfumler = [
+    {"ad": "Sauvage Elixir", "fiyat": 90, "cat": "🟦 BLUE", "img": "https://fimgs.net/mdimg/perfume/m.68415.jpg", "notalar": "Lavanta, Meyan Kökü"},
+    {"ad": "Creed Aventus", "fiyat": 120, "cat": "🌬 FRESH", "img": "https://fimgs.net/mdimg/perfume/m.9828.jpg", "notalar": "Ananas, Bergamot, Misk"},
+    {"ad": "Eros Parfum", "fiyat": 80, "cat": "🟥 RED", "img": "https://fimgs.net/mdimg/perfume/m.63731.jpg", "notalar": "Nane, Elma, Tonka"},
+    {"ad": "Bleu de Chanel", "fiyat": 85, "cat": "🟦 BLUE", "img": "https://fimgs.net/mdimg/perfume/m.25967.jpg", "notalar": "Greyfurt, Tütsü"},
+    {"ad": "Hacivat", "fiyat": 110, "cat": "🟩 GREEN", "img": "https://fimgs.net/mdimg/perfume/m.44174.jpg", "notalar": "Ananas, Meşe Yosunu"},
+    {"ad": "Stronger With You", "fiyat": 80, "cat": "🟥 RED", "img": "https://fimgs.net/mdimg/perfume/m.44587.jpg", "notalar": "Kestane, Vanilya"},
+    {"ad": "Prada L'Homme", "fiyat": 80, "cat": "🌬 FRESH", "img": "https://fimgs.net/mdimg/perfume/m.39029.jpg", "notalar": "İris, Neroli"},
+    {"ad": "Layton", "fiyat": 110, "cat": "🟥 RED", "img": "https://fimgs.net/mdimg/perfume/m.39332.jpg", "notalar": "Elma, Lavanta, Vanilya"}
 ]
 
-st.set_page_config(page_title="ALİY DEKANT VİTRİNİ", layout="wide")
+kadin_parfumler = [
+    {"ad": "Libre Intense", "fiyat": 95, "cat": "🌸 FLORAL", "img": "https://fimgs.net/mdimg/perfume/m.62318.jpg", "notalar": "Lavanta, Orkide, Vanilya"},
+    {"ad": "Good Girl", "fiyat": 85, "cat": "🍯 GOURMAND", "img": "https://fimgs.net/mdimg/perfume/m.39683.jpg", "notalar": "Badem, Kahve, Kakao"},
+    {"ad": "Baccarat Rouge 540", "fiyat": 150, "cat": "✨ MYSTERIOUS", "img": "https://fimgs.net/mdimg/perfume/m.33531.jpg", "notalar": "Safran, Yasemin, Amber"},
+    {"ad": "Delina Exclusif", "fiyat": 130, "cat": "🌸 FLORAL", "img": "https://fimgs.net/mdimg/perfume/m.46661.jpg", "notalar": "Gül, Liçi, Tütsü"},
+    {"ad": "Black Opium", "fiyat": 85, "cat": "✨ MYSTERIOUS", "img": "https://fimgs.net/mdimg/perfume/m.25317.jpg", "notalar": "Kahve, Vanilya"},
+    {"ad": "Crystal Noir", "fiyat": 80, "cat": "✨ MYSTERIOUS", "img": "https://fimgs.net/mdimg/perfume/m.631.jpg", "notalar": "Hindistan Cevizi, Kehribar"},
+    {"ad": "La Vie Est Belle", "fiyat": 80, "cat": "🍯 GOURMAND", "img": "https://fimgs.net/mdimg/perfume/m.14973.jpg", "notalar": "Pralin, Vanilya"},
+    {"ad": "L'Interdit Rouge", "fiyat": 90, "cat": "🟥 RED", "img": "https://fimgs.net/mdimg/perfume/m.68656.jpg", "notalar": "Kan Portakalı, Zencefil"}
+]
 
-# --- CSS (NETLİK VE MOBİL UYUM) ---
+st.set_page_config(page_title="ALİY DEKANT", layout="wide")
+
+# --- TASARIM (CSS) ---
 st.markdown("""
 <style>
-    .stApp { background-color: #ffffff; }
     .parfum-kart { 
-        background: white; border-radius: 20px; padding: 15px; text-align: center; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #f5f5f5; margin-bottom: 20px;
+        background: white; border-radius: 15px; padding: 15px; text-align: center; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; margin-bottom: 20px;
     }
-    img { border-radius: 15px; max-height: 280px; object-fit: contain; width: 100%; filter: contrast(1.05); }
-    .notalar { color: #d32f2f; font-size: 13px; font-weight: 600; background: #fff5f5; padding: 10px; border-radius: 10px; margin: 10px 0; }
-    .cat-tag { font-weight: bold; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+    img { border-radius: 10px; max-height: 250px; object-fit: contain; width: 100%; }
+    .notalar { color: #d32f2f; font-size: 12px; font-weight: bold; background: #fff5f5; padding: 5px; border-radius: 5px; margin: 10px 0; }
 </style>
 """, unsafe_allow_html=True)
 
-if 'secim' not in st.session_state: st.session_state.secim = None
+# --- SİSTEM ---
+if 'sayfa' not in st.session_state: st.session_state.sayfa = "GİRİŞ"
 
-# --- ANA MENÜ ---
-if st.session_state.secim is None:
-    st.markdown("<h1 style='text-align:center;'>✨ ALİY DEKANT ✨</h1>", unsafe_allow_html=True)
-    c1, c2 = st.columns(2)
-    with c1:
-        if st.button("👔 ERKEK KOLEKSİYONU", use_container_width=True): st.session_state.secim = "Erkek"; st.rerun()
-    with c2:
-        if st.button("👗 KADIN KOLEKSİYONU", use_container_width=True): st.session_state.secim = "Kadın"; st.rerun()
-    st.stop()
+if st.session_state.sayfa == "GİRİŞ":
+    st.title("🛡 ALİY DEKANT VİTRİNİ")
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("👔 ERKEK KOLEKSİYONU", use_container_width=True):
+            st.session_state.sayfa = "ERKEK"; st.rerun()
+    with col2:
+        if st.button("👗 KADIN KOLEKSİYONU", use_container_width=True):
+            st.session_state.sayfa = "KADIN"; st.rerun()
 
-# --- VİTRİN ---
-st.button("⬅️ ANA MENÜYE DÖN", on_click=lambda: setattr(st.session_state, 'secim', None))
-
-# Kategori Filtresi
-if st.session_state.secim == "Erkek":
-    kats = ["TÜMÜ", "🟦 BLUE", "🟩 GREEN", "🌬 FRESH", "🟥 RED"]
 else:
-    kats = ["TÜMÜ", "🌸 FLORAL", "🍯 GOURMAND", "✨ MYSTERIOUS", "🌬 FRESH"]
+    st.button("⬅️ ANA MENÜ", on_click=lambda: setattr(st.session_state, 'sayfa', "GİRİŞ"))
+    
+    liste = erkek_parfumler if st.session_state.sayfa == "ERKEK" else kadin_parfumler
+    st.subheader(f"✨ {st.session_state.sayfa} KOLEKSİYONU")
 
-secilen_cat = st.radio("Karakter Seçin:", kats, horizontal=True)
-
-# Listeleme
-gosterilecek = [p for p in envanter if (p['tip'] == st.session_state.secim) and (secilen_cat == "TÜMÜ" or p['cat'] == secilen_cat)]
-
-cols = st.columns(2)
-for i, p in enumerate(gosterilecek):
-    with cols[i % 2]:
-        st.markdown(f'''
-        <div class="parfum-kart">
-            <span class="cat-tag">{p["cat"]}</span>
-            <img src="{p
+    cols = st.columns(2)
+    for i, p in enumerate(liste):
+        with cols[i % 2]:
+            st.markdown(f'''
+            <div class="parfum-kart">
+                <small>{p["cat"]}</small>
+                <img src="{p["img"]}">
+                <h3 style="font-size:18px;">{p["ad"]}</h3>
+                <div class="notalar">{p["notalar"]}</div>
+            </div>
+            ''', unsafe_allow_html=True)
+            ml = st.select_slider("Miktar", options=[3, 5, 10], key=f"ml_{p['ad']}_{i}")
+            if st.button(f"{int(ml * p['fiyat'])} TL - SATIN AL", key=f"btn_{p['ad']}_{i}", use_container_width=True):
+                st.warning("⚠️ Bu ürün yakında satışa sunulacaktır!")
