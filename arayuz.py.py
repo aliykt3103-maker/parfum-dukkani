@@ -6,7 +6,6 @@ NUMARA = "905461065331"
 
 # --- DEV ENVANTER (100 ADET) ---
 def get_perfumes():
-    # ERKEK (50 ADET)
     m_raw = [
         ("Sauvage Elixir", 95, "68415", "Lavanta"), ("Aventus", 130, "9828", "Ananas"), ("Eros Parfum", 80, "63731", "Nane"),
         ("Hacivat", 115, "44174", "Meşe"), ("Ganimede", 120, "54734", "Safran"), ("Bleu Chanel", 90, "25967", "Tütsü"),
@@ -26,7 +25,6 @@ def get_perfumes():
         ("Night Vision", 85, "58410", "Elma"), ("Pegasus", 110, "13387", "Badem"), ("Toy Boy", 75, "55858", "Gül"),
         ("Light Blue Int", 80, "44034", "Greyfurt"), ("Pure Malt", 100, "6103", "Malt")
     ]
-    # KADIN (50 ADET)
     w_raw = [
         ("Libre Intense", 95, "62318", "Lavanta"), ("Good Girl", 85, "39683", "Kahve"), ("Delina Excl", 140, "46661", "Gül"),
         ("Baccarat 540", 150, "33531", "Safran"), ("Black Opium", 85, "25317", "Kahve"), ("L'Interdit", 95, "68656", "Üzüm"),
@@ -51,26 +49,78 @@ def get_perfumes():
     for x in w_raw: res.append({"ad":x[0],"f":x[1],"i":f"https://fimgs.net/mdimg/perfume/m.{x[2]}.jpg","n":x[3],"t":"Kadın"})
     return res
 
-# --- APP ---
+# --- SESSION ---
 if 'sepet' not in st.session_state: st.session_state.sepet = []
-if 'p' not in st.session_state: st.session_state.p = "G"
+if 'sayfa' not in st.session_state: st.session_state.sayfa = "ANA"
 
 st.set_page_config(page_title="ALİY DEKANT", layout="centered")
-
-# --- CSS ---
-st.markdown("<style>.card{background:white; border-radius:15px; padding:15px; text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:15px;} img{border-radius:10px; max-height:180px;} .stButton>button{border-radius:10px; font-weight:bold; background:#007bff !important; color:white !important;}</style>", unsafe_allow_html=True)
 
 # --- NAV ---
 c1, c2 = st.columns([4,1])
 with c1: 
-    if st.button("🛡 ALİY DEKANT - ANA SAYFA"): st.session_state.p = "G"; st.rerun()
+    if st.button("🛡 ALİY DEKANT"): st.session_state.sayfa = "ANA"; st.rerun()
 with c2: 
-    if st.button(f"🛒({len(st.session_state.sepet)})"): st.session_state.p = "S"; st.rerun()
+    if st.button(f"🛒({len(st.session_state.sepet)})"): st.session_state.sayfa = "SEPET"; st.rerun()
 
-data = get_perfumes()
+all_perfumes = get_perfumes()
 
-# --- SAYFA: GİRİŞ ---
-if st.session_state.p == "G":
-    st.title("Hoş Geldiniz")
-    b1, b2 = st.columns(2)
-    if b1.button("👔 ERKEK
+# --- ANA SAYFA ---
+if st.session_state.sayfa == "ANA":
+    st.title("Koleksiyon Seçin")
+    colA, colB = st.columns(2)
+    if colA.button("👔 ERKEK KOLEKSİYONU", use_container_width=True):
+        st.session_state.sayfa = "Erkek"
+        st.rerun()
+    if colB.button("👗 KADIN KOLEKSİYONU", use_container_width=True):
+        st.session_state.sayfa = "Kadın"
+        st.rerun()
+
+# --- SEPET SAYFASI ---
+elif st.session_state.sayfa == "SEPET":
+    st.header("Sepetiniz")
+    if not st.session_state.sepet:
+        st.write("Henüz ürün eklemediniz.")
+    else:
+        total = 0
+        order_list = ""
+        for idx, item in enumerate(st.session_state.sepet):
+            ca, cb, cc = st.columns([3,1,1])
+            ca.write(f"**{item['ad']}** ({item['ml']}ml)")
+            cb.write(f"{item['f']} TL")
+            if cc.button("❌", key=f"del_{idx}"):
+                st.session_state.sepet.pop(idx)
+                st.rerun()
+            total += item['f']
+            order_list += f"- {item['ad']} ({item['ml']}ml): {item['f']} TL\n"
+        
+        st.divider()
+        st.subheader(f"Toplam: {total} TL")
+        msg = urllib.parse.quote(f"Merhaba! Siparişim:\n{order_list}\nToplam: {total} TL")
+        st.markdown(f'<a href="https://wa.me/{NUMARA}?text={msg}" target="_blank" style="text-decoration:none;"><div style="background:#25D366; color:white; padding:15px; text-align:center; border-radius:10px; font-weight:bold;">SİPARİŞİ WHATSAPP\'TAN GÖNDER</div></a>', unsafe_allow_html=True)
+        if st.button("Sepeti Boşalt"):
+            st.session_state.sepet = []
+            st.rerun()
+
+# --- VİTRİN SAYFALARI ---
+else:
+    st.header(f"{st.session_state.sayfa} Parfümleri")
+    query = st.text_input("🔍 Aradığınız parfümün adını yazın...")
+    
+    filtered = [p for p in all_perfumes if p['t'] == st.session_state.sayfa]
+    if query:
+        filtered = [p for p in filtered if query.lower() in p['ad'].lower()]
+
+    for p in filtered:
+        with st.container():
+            st.markdown(f'''
+            <div style="background:white; padding:15px; border-radius:15px; border:1px solid #ddd; text-align:center; margin-bottom:10px;">
+                <img src="{p['i']}" style="max-height:150px;"><br>
+                <b>{p['ad']}</b><br><small>Nota: {p['n']}</small>
+            </div>
+            ''', unsafe_allow_html=True)
+            ml_size = st.select_slider(f"Boyut ({p['ad']})", [3, 5, 10], 5, key="ml_"+p['ad'])
+            final_price = int(ml_size * p['f'])
+            if st.button(f"EKLE - {final_price} TL", key="btn_"+p['ad'], use_container_width=True):
+                st.session_state.sepet.append({"ad": p['ad'], "f": final_price, "ml": ml_size})
+                st.toast(f"{p['ad']} eklendi!")
+                st.rerun()
